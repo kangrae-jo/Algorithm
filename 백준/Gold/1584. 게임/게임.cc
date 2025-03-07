@@ -30,7 +30,7 @@ bool isMoveable(int y, int x) {
     return 0 <= y && y < SIZE && 0 <= x && x < SIZE && area[y][x] != KILL;
 }
 
-int dikstra(int sY, int sX) {
+int dijkstra(int sY, int sX) {
     priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
     pq.push({0, {sY, sX}});
     dist[sY][sX] = 0;
@@ -68,7 +68,7 @@ int main() {
     cin >> M;
     while (M--) init(KILL);
 
-    cout << dikstra(0, 0) << '\n';
+    cout << dijkstra(0, 0) << '\n';
 
     return 0;
 }
