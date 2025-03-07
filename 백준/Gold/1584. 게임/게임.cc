@@ -5,10 +5,6 @@
 
 using namespace std;
 
-struct Pos {
-    int x, y;
-};
-
 const int offset[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 const int SIZE = 501;
 const int SAFE = 0;
@@ -27,8 +23,7 @@ void init(const int& ZONE) {
     int eX = max(x1, x2);
     int eY = max(y1, y2);
 
-    for (int y = sY; y <= eY; y++)
-        for (int x = sX; x <= eX; x++) area[y][x] = ZONE;
+    for (int y = sY; y <= eY; y++) for (int x = sX; x <= eX; x++) area[y][x] = ZONE;
 }
 
 bool isMoveable(int y, int x) {
@@ -39,7 +34,7 @@ int dikstra(int sY, int sX) {
     priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
     pq.push({0, {sY, sX}});
     dist[sY][sX] = 0;
-    
+
     while (!pq.empty()) {
         auto cur = pq.top();
         pq.pop();
