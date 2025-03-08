@@ -5,17 +5,11 @@
 
 using namespace std;
 
-bool solution(vector<string> phone_book) {   
-    unordered_map<string, int> um;
-    
+bool solution(vector<string> phone_book) {
     sort(phone_book.begin(), phone_book.end());
-    for (int i = 0; i < phone_book.size(); i++){
-        string temp = "";
-        for (int s = 0; s < phone_book[i].size(); s++){
-            temp += phone_book[i][s];
-            if (um.find(temp) != um.end()) return false;
-        }
-        um[phone_book[i]]++;
-    }
+    
+    for(int i=0; i < phone_book.size()-1 ; i++) 
+        if(phone_book[i+1].find(phone_book[i]) == 0) return false;
+
     return true;
 }
