@@ -12,6 +12,7 @@ int solution(vector<vector<int>> jobs) {
     int n = jobs.size();
 
     while (index < n || !pq.empty()) {
+        // 밀려있는 작업 push
         while (index < n && jobs[index][0] <= time) {
             pq.push({jobs[index][1], jobs[index][0]});
             index++;
