@@ -5,13 +5,9 @@ using namespace std;
 
 vector<int> parent;
 
-int find(int x) {
+int findParent(int x) {
     if (parent[x] == x) return x;
-    return parent[x] = find(parent[x]);
-}
-
-void unionNodes(int a, int b) {
-    parent[b] = a;
+    return parent[x] = findParent(parent[x]);
 }
 
 bool compareTo(vector<int>& a, vector<int>& b) {
@@ -19,20 +15,17 @@ bool compareTo(vector<int>& a, vector<int>& b) {
 }
 
 int solution(int n, vector<vector<int>> costs) {
-    sort(costs.begin(), costs.end(), compareTo);
-
     parent = vector<int> (n);
     for (int i = 0; i < n; i++) parent[i] = i;
 
-    int answer = 0, edges = 0;
+    sort(costs.begin(), costs.end(), compareTo);
+    
+    int answer = 0;
     for (auto &cost : costs) {
-        int u = cost[0], v = cost[1], w = cost[2];
-        int rootU = find(u), rootV = find(v);
+        int rootU = findParent(cost[0]), rootV = findParent(cost[1]);
         if (rootU != rootV) {
-            unionNodes(rootU, rootV);
-            answer += w;
-            edges++;
-            if (edges == n - 1) break;
+            parent[rootV] = rootU;
+            answer += cost[2];
         }
     }
     return answer;
