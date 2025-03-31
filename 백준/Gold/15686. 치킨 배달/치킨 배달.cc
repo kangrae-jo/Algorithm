@@ -4,15 +4,15 @@
 #include <queue>
 #include <vector>
 
-#define EMPTY 0
-#define HOME 1
-#define CHICKEN 2
+const int EMPTY = 0;
+const int HOUSE = 1;
+const int CHICKEN = 2;
 
 using namespace std;
 
 int N, M, result = INT_MAX;
 vector<pair<int, int>> chicken;
-queue<pair<int, int>> home;
+queue<pair<int, int>> house;
 
 int getDistance(int x, int y, int x_, int y_) {
     return abs(x - x_) + abs(y - y_);
@@ -20,17 +20,15 @@ int getDistance(int x, int y, int x_, int y_) {
 
 int calculateDistance(vector<pair<int, int>>& selected) {
     int sumDistance = 0;
-    queue<pair<int, int>> q = home;
-
+    
+    queue<pair<int, int>> q = house;
     while (!q.empty()) {
-        int y_ = q.front().first;
-        int x_ = q.front().second;
+        auto [y, x] = q.front();
         q.pop();
 
         int minDistance = INT_MAX;
-        for (auto& c : selected) {
-            int distance = getDistance(x_, y_, c.second, c.first);
-            minDistance = min(minDistance, distance);
+        for (auto [y_, x_] : selected) {
+            minDistance = min(minDistance, getDistance(x, y, x_, y_));
         }
         sumDistance += minDistance;
     }
@@ -55,8 +53,7 @@ int main() {
         for (int x = 0; x < N; x++) {
             int temp;
             cin >> temp;
-
-            if (temp == HOME) home.push({y, x});
+            if (temp == HOUSE) house.push({y, x});
             if (temp == CHICKEN) chicken.push_back({y, x});
         }
     }
