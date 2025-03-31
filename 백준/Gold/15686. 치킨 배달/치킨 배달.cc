@@ -4,11 +4,11 @@
 #include <queue>
 #include <vector>
 
+using namespace std;
+
 const int EMPTY = 0;
 const int HOUSE = 1;
 const int CHICKEN = 2;
-
-using namespace std;
 
 int N, M, result = INT_MAX;
 vector<pair<int, int>> chicken;
@@ -27,9 +27,7 @@ int calculateDistance(vector<pair<int, int>>& selected) {
         q.pop();
 
         int minDistance = INT_MAX;
-        for (auto [y_, x_] : selected) {
-            minDistance = min(minDistance, getDistance(x, y, x_, y_));
-        }
+        for (auto [y_, x_] : selected) minDistance = min(minDistance, getDistance(x, y, x_, y_));
         sumDistance += minDistance;
     }
 
@@ -49,11 +47,10 @@ void dfs(vector<pair<int, int>>& selected, int index, int count) {
 int main() {
     cin >> N >> M;
 
+    int temp;
     for (int y = 0; y < N; y++) {
         for (int x = 0; x < N; x++) {
-            int temp;
-            cin >> temp;
-            if (temp == HOUSE) house.push({y, x});
+            if (cin >> temp && temp == HOUSE) house.push({y, x});
             if (temp == CHICKEN) chicken.push_back({y, x});
         }
     }
