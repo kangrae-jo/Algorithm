@@ -11,7 +11,7 @@ const int OFFSET[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
 struct Pos {
     int x, y, c, d;
     Pos(int a, int b, int c, int d) : x(a), y(b), c(c), d(d) {};
-    bool operator< (const Pos& other) const { return this->c < other.c; }
+    bool operator< (const Pos& other) const { return this->c > other.c; }
 };
 
 bool isIn(int y, int x, int N) { return 0 <= y && y < N && 0 <= x && x < N; }
