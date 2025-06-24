@@ -27,15 +27,15 @@ int main() {
 
     sort(ho.begin(), ho.end(), compareTo);
 
-    priority_queue<int> pq;
+    priority_queue<int, vector<int>, greater<>> pq;
     int answer = 0;
 
     for (auto [s, e] : ho) {
-        if (e - s <= d) pq.push(-s);
+        if (e - s <= d) pq.push(s);
         else continue;
 
         while (!pq.empty()) {
-            if (-pq.top() < e - d) pq.pop();
+            if (pq.top() < e - d) pq.pop();
             else {
                 answer = max(answer, (int)pq.size());
                 break;
