@@ -11,21 +11,23 @@ int answer = 0;
 
 vector<int> mergeLine(vector<int> line) {
     vector<int> result;
-    int prev = 0;
+    int prev = EMPTY;
     for (int num : line) {
-        if (num == 0) continue;
-        if (prev == 0)
-            prev = num;
+        if (num == EMPTY) continue;
+        if (prev == EMPTY) prev = num;
         else if (prev == num) {
             result.push_back(prev * 2);
-            prev = 0;
-        } else {
+            prev = EMPTY;
+        } 
+        else {
             result.push_back(prev);
             prev = num;
         }
     }
+
     if (prev) result.push_back(prev);
-    while (result.size() < line.size()) result.push_back(0);
+    while (result.size() < line.size()) result.push_back(EMPTY);
+
     return result;
 }
 
@@ -36,8 +38,8 @@ int check(vector<vector<int>> board, int N, vector<int> cmd) {
                 vector<int> line;
                 for (int y = N - 1; y >= 0; y--) line.push_back(board[y][x]);
                 line = mergeLine(line);
-                for (int y = N - 1, idx = 0; y >= 0; y--, idx++)
-                    board[y][x] = line[idx];
+                reverse(line.begin(), line.end());
+                for (int y = 0; y < N; y++) board[y][x] = line[y];
             }
         }
         if (dir == 1) {  // right
@@ -45,8 +47,8 @@ int check(vector<vector<int>> board, int N, vector<int> cmd) {
                 vector<int> line;
                 for (int x = N - 1; x >= 0; x--) line.push_back(board[y][x]);
                 line = mergeLine(line);
-                for (int x = N - 1, idx = 0; x >= 0; x--, idx++)
-                    board[y][x] = line[idx];
+                reverse(line.begin(), line.end());
+                for (int x = 0; x < N; x++) board[y][x] = line[x];
             }
         }
         if (dir == 2) {  // up
@@ -54,8 +56,7 @@ int check(vector<vector<int>> board, int N, vector<int> cmd) {
                 vector<int> line;
                 for (int y = 0; y < N; y++) line.push_back(board[y][x]);
                 line = mergeLine(line);
-                for (int y = 0, idx = 0; y < N; y++, idx++)
-                    board[y][x] = line[idx];
+                for (int y = 0; y < N; y++) board[y][x] = line[y];
             }
         }
         if (dir == 3) {  // left
@@ -63,8 +64,7 @@ int check(vector<vector<int>> board, int N, vector<int> cmd) {
                 vector<int> line;
                 for (int x = 0; x < N; x++) line.push_back(board[y][x]);
                 line = mergeLine(line);
-                for (int x = 0, idx = 0; x < N; x++, idx++)
-                    board[y][x] = line[idx];
+                for (int x = 0; x < N; x++) board[y][x] = line[x];
             }
         }
     }
