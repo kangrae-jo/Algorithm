@@ -9,7 +9,6 @@ const int N = 5;
 const int M = 5;
 const int OFFSET[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
-int answer = 0;
 vector<string> board(N);
 
 bool isVaild(vector<int>& candi) {
@@ -18,13 +17,15 @@ bool isVaild(vector<int>& candi) {
     q.push(0); 
     visited[0] = true;
 
-    int Y = 0, cnt = 1;
-    if (board[candi[0] / N][candi[0] % M] == 'Y') Y++;
+    int Y = 0, cnt = 0;
+    while (!q.empty() && ++cnt) {
+        int now = q.front(); 
+        q.pop();
 
-    while (!q.empty()) {
-        int now = q.front(); q.pop();
         int y = candi[now] / N;
         int x = candi[now] % M;
+
+        if (board[y][x] == 'Y') Y++;
 
         for (int dir = 0; dir < 4; dir++) {
             int y_ = y + OFFSET[dir][0];
@@ -33,8 +34,6 @@ bool isVaild(vector<int>& candi) {
                 if (!visited[i] && y_ == candi[i] / N && x_ == candi[i] % M) {
                     visited[i] = true;
                     q.push(i);
-                    cnt++;
-                    if (board[y_][x_] == 'Y') Y++;
                 }
             }
         }
@@ -42,17 +41,19 @@ bool isVaild(vector<int>& candi) {
     return cnt == 7 && Y < 4;
 }
 
-void comb(vector<int>& candi, int k) {
+int comb(vector<int>& candi, int k) {
     if (candi.size() == 7) {
-        if (isVaild(candi)) answer++;
-        return;
+        if (isVaild(candi)) return 1;
+        return 0;
     }
 
+    int cnt = 0;
     for (int index = k; index < N * M; index++) {
         candi.push_back(index);
-        comb(candi, index + 1);
+        cnt += comb(candi, index + 1);
         candi.pop_back();
     }
+    return cnt;
 }
 
 int main() {
@@ -61,9 +62,7 @@ int main() {
     }
 
     vector<int> candi;
-    comb(candi, 0);
-
-    cout << answer << '\n';
+    cout << comb(candi, 0) << '\n';
 
     return 0;
 }
