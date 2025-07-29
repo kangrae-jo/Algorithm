@@ -45,8 +45,7 @@ public class Main {
             wr.newLine();
 
             // 일부 값 갱신
-            long diff = b - nums[a];
-            updateTree(1, N, 1, a, diff);
+            updateTree(1, N, 1, a, b - nums[a]);
             nums[a] = b;
         }
         wr.flush();
