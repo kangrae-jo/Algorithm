@@ -31,13 +31,11 @@ long long solution(int cap, int n, vector<int> deliveries_, vector<int> pickups_
     while (!deliveries.empty() || !pickups.empty()) {
         while (!deliveries.empty() && deliveries.top() == 0) deliveries.pop();
         while (!pickups.empty()    && pickups.top() == 0)    pickups.pop();
-        int size = max(deliveries.size(), pickups.size());
+        answer += max(deliveries.size(), pickups.size());
         
         move(deliveries, cap);
         move(pickups, cap);
-        
-        answer += size * 2;
     }
     
-    return answer;
+    return answer * 2;
 }
