@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -20,10 +20,10 @@ vector<int> solution(string today, vector<string> terms, vector<string> privacie
     month = stoi(today.substr(5, 7));
     day = stoi(today.substr(8, 10));
     
-    map<string, int> m; // 유형 -> 기간
+    unordered_map<string, int> um; // 유형 -> 기간
     for (string t : terms) {
         string key = t.substr(0, 1);
-        m[key] = stoi(t.substr(2));
+        um[key] = stoi(t.substr(2));
     }
     
     vector<int> answer;
@@ -33,14 +33,14 @@ vector<int> solution(string today, vector<string> terms, vector<string> privacie
         int dd = stoi(privacies[i].substr(8, 10));
         string type = privacies[i].substr(11);
         
-        int mm_ = m[type];
+        int mm_ = um[type];
         mm += mm_;
         
         while (mm > 12) {
             mm -= 12;
             yy += 1;
         }
-        cout << yy << " " << mm << " " << dd << endl;
+        cout << yy << " " << mm << " " << dd << '\n';
         if (check(yy, mm, dd)) answer.push_back(i + 1);
     }
     
