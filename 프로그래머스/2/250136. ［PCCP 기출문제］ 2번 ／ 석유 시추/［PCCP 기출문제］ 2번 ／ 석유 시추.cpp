@@ -4,12 +4,18 @@
 
 using namespace std;
 
-int offset[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+const int EMPTY = 0;
+const int OIL = 1;
+const int OFFSET[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+int N, M;
 vector<int> result;
 
-void bfs(vector<vector<int>>& land, vector<vector<bool>>& visited, int a, int b, int n, int m){
-    queue<pair<int,int>> q;
-    q.push({a,b});
+bool isIn(int y, int x) { return 0 <= y && y < N && 0 <= x && x < M; }
+
+void bfs(vector<vector<int>>& land, vector<vector<bool>>& visited, int a, int b){
+    queue<pair<int, int>> q;
+    q.push({a, b});
     visited[b][a] = true;
     
     int minX = a;
@@ -21,11 +27,11 @@ void bfs(vector<vector<int>>& land, vector<vector<bool>>& visited, int a, int b,
         q.pop();
         
         for (int dir = 0; dir < 4; dir++){
-            int x_ = x + offset[dir][1];
-            int y_ = y + offset[dir][0];
-            if (0 <= x_ && x_ < m && 0 <= y_ && y_ < n && !visited[y_][x_] && land[y_][x_] == 1){
-                visited[y_][x_] = true;
+            int x_ = x + OFFSET[dir][1];
+            int y_ = y + OFFSET[dir][0];
+            if (isIn(y_, x_) && !visited[y_][x_] && land[y_][x_] == OIL){
                 q.push({x_,y_});
+                visited[y_][x_] = true;
                 cnt++;
                 maxX = max(maxX, x_);
             }
@@ -36,15 +42,15 @@ void bfs(vector<vector<int>>& land, vector<vector<bool>>& visited, int a, int b,
 }
 
 int solution(vector<vector<int>> land) {
-    int n = land.size();
-    int m = land[0].size();
+    N = land.size();
+    M = land[0].size();
     
-    vector<vector<bool>> visited(n, vector<bool> (m, false));
-    result = vector<int> (m, 0);
-    for (int x = 0; x < m; x++){
-        for (int y = 0; y < n; y++){
-            if (!visited[y][x] && land[y][x] != 0) 
-                bfs(land, visited, x, y, n, m);
+    vector<vector<bool>> visited(N, vector<bool> (M, false));
+    result = vector<int> (M, 0);
+    for (int x = 0; x < M; x++){
+        for (int y = 0; y < N; y++){
+            if (!visited[y][x] && land[y][x] != EMPTY) 
+                bfs(land, visited, x, y);
         }
     }
     
