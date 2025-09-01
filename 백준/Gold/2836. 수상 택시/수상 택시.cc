@@ -18,7 +18,7 @@ int main() {
 
     sort(info.begin(), info.end());
 
-    long long answer = M;
+    long long answer = 0;
     if (!info.empty()) {
         int L = info[0].first;   // 구간 시작
         int R = info[0].second;  // 구간 끝
@@ -27,15 +27,15 @@ int main() {
             auto [to, from] = info[i];
             if (to <= R) R = max(R, from);
             else {
-                answer += 2 * (R - L);
+                answer += (R - L);
                 L = to;
                 R = from;
             }
         }
-        answer += 2 * (R - L);
+        answer += (R - L);
     }
 
-    cout << answer << '\n';
+    cout << 2 * answer + M << '\n';
 
     return 0;
 }
