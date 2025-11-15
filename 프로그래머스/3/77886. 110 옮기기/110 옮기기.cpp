@@ -3,39 +3,39 @@
 
 using namespace std;
 
-vector<string> solution(vector<string> numbers) {
-    vector<string> answer;
+bool is110(string stack, int len) {
+    return stack[len - 3] == '1' && stack[len - 2] == '1' && stack[len - 1] == '0';
+}
+
+vector<string> solution(vector<string> s) {
+    vector<string> answer(s.size());
     
-    for (string number : numbers) {
+    for (int i = 0; i < s.size(); i++) {
         string stack = "";
         int count110 = 0;
         
-        for (char c : number) {
-            stack.push_back(c);
+        for (char c : s[i]) {
+            stack += c;
             int len = stack.size();
             
-            if (len >= 3 &&
-                stack[len-3] == '1' &&
-                stack[len-2] == '1' &&
-                stack[len-1] == '0') {
-                stack.erase(stack.end() - 3, stack.end());
+            if (len >= 3 && is110(stack, len)) {
                 count110++;
+                stack.erase(stack.end() - 3, stack.end());
             }
         }
         
         int pos = -1;
-        for (int i = stack.size() - 1; i >= 0; i--) {
-            if (stack[i] == '0') {
-                pos = i + 1;
+        for (int j = stack.size() - 1; j >= 0; j--) {
+            if (stack[j] == '0') {
+                pos = j;
                 break;
             }
-        }
+        }   
         
         string block = "";
-        while(count110-- > 0) block += "110";
+        while (count110-- > 0) block += "110";
         
-        if (pos == -1) answer.push_back(block + stack);
-        else answer.push_back(stack.insert(pos, block));
+        answer[i] = stack.insert(pos + 1, block);        
     }
     
     return answer;
